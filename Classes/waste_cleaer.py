@@ -9,9 +9,7 @@ class Waste_cleaner:
 
     def clean(self):
         t = time()
-        requests = self.session.query(Request).filter(Request.created > TTL + t).all()
+        requests = self.session.query(Request).filter(Request.created + TTL < t).all()
         for request in requests:
-            print(request)
             self.session.delete(request)
-
         self.session.commit()

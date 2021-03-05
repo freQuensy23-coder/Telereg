@@ -4,7 +4,7 @@ from status import status_decode
 
 base = declarative_base()
 
-TTL = 15
+TTL = 15 * 60
 
 
 class Request(base):

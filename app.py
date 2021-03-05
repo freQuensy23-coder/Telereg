@@ -16,6 +16,7 @@ api = Api(app)
 
 class Create_new_req(Resource):
     def post(self):
+        waste_cleaner.clean()
         r = requests_maker.create_req()
         session.add(r)
         session.commit()
@@ -24,11 +25,13 @@ class Create_new_req(Resource):
 
 class Get_req_status(Resource):
     def get(self, key):
-        r = session.query(Request).filter_by(r_key=key).first()
-        print(r.jsonify())
         waste_cleaner.clean()
-        return r.jsonify()
-
+        r = session.query(Request).filter_by(r_key=key).first()
+        if r is not None:
+            print(r.jsonify())
+            return r.jsonify()
+        else:
+            return {"Error": "Request not found"}, 404
 
 if __name__ == '__main__':
     waste_cleaner = Waste_cleaner(session=session)
