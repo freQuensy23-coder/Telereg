@@ -6,6 +6,7 @@ def status_encode(status: str) -> int:
     else:
         raise Exception # TODO
 
+
 def status_decode(status_code: int) -> str:
     if status_code == 0:
         return "wait"

@@ -23,12 +23,12 @@ class Requests_maker:
     def __generate_code(self):
         """Generate random uniq code"""
         code = randint(10000, 99999) # TODO
-        # while self.session.query(Request).filter_by(code = code): # If code was not uniq
-        #     code = randint(10000, 99999)
+        while self.session.query(Request).filter_by(code = code).first() is not None: # If code was not uniq
+            code = randint(10000, 99999)
         return code
 
     def __generate_r_key(self):
         r_key = str(uuid.uuid4())
-        # while self.session.query(Request).filter_by(r_key = r_key): # If r_key was not uniq
-        #     r_key = str(uuid.uuid4())
+        while self.session.query(Request).filter_by(r_key = r_key).first() is not None: # If r_key was not uniq
+            r_key = str(uuid.uuid4())
         return r_key

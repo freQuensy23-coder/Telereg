@@ -8,6 +8,8 @@ from requests_database import session
 
 from Classes.request import Request
 
+from Classes.waste_cleaer import Waste_cleaner
+
 app = Flask("Test")
 api = Api(app)
 
@@ -24,10 +26,12 @@ class Get_req_status(Resource):
     def get(self, key):
         r = session.query(Request).filter_by(r_key=key).first()
         print(r.jsonify())
+        waste_cleaner.clean()
         return r.jsonify()
 
 
 if __name__ == '__main__':
+    waste_cleaner = Waste_cleaner(session=session)
     requests_maker = Requests_maker(session=session)
     api.add_resource(Create_new_req, "/new")
     api.add_resource(Get_req_status, "/requests/<string:key>")
